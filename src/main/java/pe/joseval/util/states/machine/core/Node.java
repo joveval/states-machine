@@ -34,7 +34,7 @@ public class Node {
 		return this;
 	}
 
-	public void populateStateManager(StatesManager statesManager) {
+	public<T> void populateStateManager(StatesManager<T> statesManager) {
 
 		if (!statesManager.getStates().containsKey(root.getStateId()))
 			statesManager.addState(root);
@@ -57,6 +57,8 @@ public class Node {
 			// sT.setAction(edge.getAction());
 			sT.setAutomatic(edge.isAutomatic());
 			sT.setActionToMake(edge.getActionToMake());
+			sT.setCustomParams(edge.getCustomParams());
+			sT.setCustomAction(edge.getCustomAction());
 			statesManager.addTransition(sT);
 
 			if (!statesManager.getStates().containsKey(edge.getTargetNode().getRoot().getStateId()))

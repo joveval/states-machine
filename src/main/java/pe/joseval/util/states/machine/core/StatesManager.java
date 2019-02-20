@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -16,22 +17,23 @@ import pe.joseval.util.rules.manager.core.ConditionValidationException;
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatesManager {
+public class StatesManager<T> {
 	
 	private Map<Integer, State> states = new HashMap<>();
 	private List<StateTransition> transitionMatrix = new ArrayList<>();
 
-	public StatesManager addState(State state){
+	public StatesManager<T> addState(State state){
 		states.put(state.getStateId(), state);
 		return this;
 	}
 	
-	public StatesManager addTransition(StateTransition transition){
+	public StatesManager<T> addTransition(StateTransition transition){
 		transitionMatrix.add(transition);
 		return this;
 	}
 	
-	public TransitionResponse executeTransition(State currenState, Map<String, Object> params) {
+	@SuppressWarnings("unchecked")
+	public TransitionResponse<T> executeTransition(State currenState, Map<String, Object> params) {
 		
 		List<StateTransition> statesWichConcerns = transitionMatrix.stream().filter(st->st.getInit().equals(currenState)).collect(Collectors.toList());
 		
@@ -56,9 +58,12 @@ public class StatesManager {
 		if(selectedStateTransition!=null) {
 			log.debug("{} APPLIES becauseOf {}",selectedStateTransition.getEnd(),selectedStateTransition.getCondition());
 			
-			TransitionResponse transitionResponse = new TransitionResponse();
+			TransitionResponse<T> transitionResponse = new TransitionResponse<>();
 			transitionResponse.setActionToMake(selectedStateTransition.getActionToMake());
 			transitionResponse.setNextState(selectedStateTransition.getEnd());
+			transitionResponse.setCustomParams(selectedStateTransition.getCustomParams());
+			
+			transitionResponse.setCustomAction((Function<Map<String, Object>, T>) selectedStateTransition.getCustomAction());
 			if(selectedStateTransition.isAutomatic()) {
 				log.debug("Automatic transition");
 				return executeTransition(selectedStateTransition.getEnd(),params);
@@ -73,22 +78,22 @@ public class StatesManager {
 		
 	}
 
-	public static class Builder{
+	public static class Builder<T>{
 		private Map<Integer, State> states=new HashMap<>();
 		private List<StateTransition> transitionMatrix = new ArrayList<>();
 		
-		public Builder registerState(State state){
+		public Builder<T> registerState(State state){
 			states.put(state.getStateId(), state);
 			return this;
 		}
 		
-		public Builder registerStateTransition(StateTransition stateTransition){
+		public Builder<T> registerStateTransition(StateTransition stateTransition){
 			transitionMatrix.add(stateTransition);
 			return this;
 		}
 		
-		public StatesManager build(){
-			return new StatesManager(states, transitionMatrix);
+		public StatesManager<T> build(){
+			return new StatesManager<>(states, transitionMatrix);
 		}
 		
 	}
