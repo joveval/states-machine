@@ -55,10 +55,7 @@ public class Node {
 			StateTransition sT = StateTransition.builder().condition(edge.getCondition()).init(root)
 					.end(edge.getTargetNode().getRoot()).build();
 			// sT.setAction(edge.getAction());
-			sT.setAutomatic(edge.isAutomatic());
-			sT.setActionToMake(edge.getActionToMake());
-			sT.setCustomParams(edge.getCustomParams());
-			sT.setCustomAction(edge.getCustomAction());
+			sT.setAction(edge.getAction());
 			statesManager.addTransition(sT);
 
 			if (!statesManager.getStates().containsKey(edge.getTargetNode().getRoot().getStateId()))

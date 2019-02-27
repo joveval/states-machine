@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -32,7 +31,6 @@ public class StatesManager<T> {
 		return this;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public TransitionResponse<T> executeTransition(State currenState, Map<String, Object> params) {
 		
 		List<StateTransition> statesWichConcerns = transitionMatrix.stream().filter(st->st.getInit().equals(currenState)).collect(Collectors.toList());
@@ -59,15 +57,15 @@ public class StatesManager<T> {
 			log.debug("{} APPLIES becauseOf {}",selectedStateTransition.getEnd(),selectedStateTransition.getCondition());
 			
 			TransitionResponse<T> transitionResponse = new TransitionResponse<>();
-			transitionResponse.setActionToMake(selectedStateTransition.getActionToMake());
-			transitionResponse.setNextState(selectedStateTransition.getEnd());
-			transitionResponse.setCustomParams(selectedStateTransition.getCustomParams());
 			
-			transitionResponse.setCustomAction((Function<Map<String, Object>, T>) selectedStateTransition.getCustomAction());
-			if(selectedStateTransition.isAutomatic()) {
+			transitionResponse.setNextState(selectedStateTransition.getEnd());
+			
+			if(selectedStateTransition.getAction().isAutomatic()) {
 				log.debug("Automatic transition");
 				return executeTransition(selectedStateTransition.getEnd(),params);
 			}else {
+				log.debug("Action = {}",selectedStateTransition.getAction());
+				transitionResponse.setAction(selectedStateTransition.getAction());
 				return transitionResponse;
 			}
 			
