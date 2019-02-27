@@ -9,7 +9,7 @@ import static pe.joseval.util.rules.manager.core.StaticConditions.lNotEquals;
 import static pe.joseval.util.states.machine.core.Action.action;
 import static pe.joseval.util.states.machine.core.StaticMethods.edge;
 import static pe.joseval.util.states.machine.core.StaticMethods.node;
-import static pe.joseval.util.states.machine.core.StaticMethods.SimpleState;
+import static pe.joseval.util.states.machine.core.StaticMethods.simpleState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,30 +29,30 @@ public class NumericalStateMachineTest {
 	@Test
 	public void testANumericalStateMachine() {
 
-		Node node = node(SimpleState(0))
+		Node node = node(simpleState(0))
 
 				.withEdge(edge().withCondition(lessOrEqualThan("x", 10))
 								.withAction(
 											action(ActionType.NAMED_ACTION).withName("ACTION_01")
 											
 											)
-								.toTarget(node(SimpleState(1))
+								.toTarget(node(simpleState(1))
 										.withEdge(edge().withCondition(greaterOrEqualThan("x", 8))
 														.withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_01")
 																	)
-														.toTarget(node(SimpleState(3))))
+														.toTarget(node(simpleState(3))))
 										.withEdge(edge().withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_02"))
 														.withCondition(greaterOrEqualThan("x", 5))
-														.toTarget(node(SimpleState(4))))
+														.toTarget(node(simpleState(4))))
 
 						))
 				.withEdge(edge().withCondition(lEquals("x", 0))
 								.withAction(
 											 action(ActionType.NAMED_ACTION).withName("ACTION_00")
 											)
-								.toTarget(node(SimpleState(2))));
+								.toTarget(node(simpleState(2))));
 
 		StatesManager<Integer> sm = new StatesManager<>();
 
@@ -64,7 +64,7 @@ public class NumericalStateMachineTest {
 		params.put("x", 9);
 		// node.getRoot();
 
-		State state = SimpleState(1);
+		State state = simpleState(1);
 
 		TransitionResponse<Integer> executeTransition = sm.executeTransition(state, params);
 
@@ -78,30 +78,30 @@ public class NumericalStateMachineTest {
 	@Test
 	public void testBAutomaticNavigation() {
 		
-		Node node = node(SimpleState(0))
+		Node node = node(simpleState(0))
 
 				.withEdge(edge().withCondition(lessOrEqualThan("x", 10))
 								.withAction(
 											action(ActionType.NAMED_ACTION).withName("ACTION_01")
 											.automatic(true)
 											)
-								.toTarget(node(SimpleState(1))
+								.toTarget(node(simpleState(1))
 										.withEdge(edge().withCondition(greaterOrEqualThan("x", 8))
 														.withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_01")
 																	)
-														.toTarget(node(SimpleState(3))))
+														.toTarget(node(simpleState(3))))
 										.withEdge(edge().withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_02"))
 														.withCondition(greaterOrEqualThan("x", 5))
-														.toTarget(node(SimpleState(4))))
+														.toTarget(node(simpleState(4))))
 
 						))
 				.withEdge(edge().withCondition(lEquals("x", 0))
 								.withAction(
 											 action(ActionType.NAMED_ACTION).withName("ACTION_00")
 											)
-								.toTarget(node(SimpleState(2))));
+								.toTarget(node(simpleState(2))));
 		
 		
 
@@ -115,7 +115,7 @@ public class NumericalStateMachineTest {
 		params.put("x", 9);
 		// node.getRoot();
 
-		State state = SimpleState(0);
+		State state = simpleState(0);
 		
 
 		TransitionResponse<Integer> executeTransition = sm.executeTransition(state, params);
@@ -131,43 +131,43 @@ public class NumericalStateMachineTest {
 	public void testCHighDepth() {
 
 		
-		Node node = node(SimpleState(0))
+		Node node = node(simpleState(0))
 
 				.withEdge(edge().withCondition(lessOrEqualThan("x", 10))
 								.withAction(
 											action(ActionType.NAMED_ACTION).withName("ACTION_01")
 											.automatic(true)
 											)
-								.toTarget(node(SimpleState(1))
+								.toTarget(node(simpleState(1))
 										.withEdge(edge().withCondition(greaterOrEqualThan("x", 8))
 														.withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_01")
 																	.automatic(true)
 																	)
-														.toTarget(node(SimpleState(3))
+														.toTarget(node(simpleState(3))
 																				.withEdge(edge()
 																						.withAction(
 																									action(ActionType.NAMED_ACTION)
 																										.withName("ACTION_01_01_01"))
-																						.withCondition(lNotEquals("x", 9)).toTarget(node(SimpleState(5))))
+																						.withCondition(lNotEquals("x", 9)).toTarget(node(simpleState(5))))
 																				.withEdge(edge().withAction(
 																									action(ActionType.NAMED_ACTION)
 																										.withName("ACTION_01_01_02"))
-																						.withCondition(lEquals("x", 9)).toTarget(node(SimpleState(6))))
+																						.withCondition(lEquals("x", 9)).toTarget(node(simpleState(6))))
 																				
 																	)
 													)
 										.withEdge(edge().withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_02"))
 														.withCondition(greaterOrEqualThan("x", 5))
-														.toTarget(node(SimpleState(4))))
+														.toTarget(node(simpleState(4))))
 
 						))
 				.withEdge(edge().withCondition(lEquals("x", 0))
 								.withAction(
 											 action(ActionType.NAMED_ACTION).withName("ACTION_00")
 											)
-								.toTarget(node(SimpleState(2))));
+								.toTarget(node(simpleState(2))));
 		
 		
 		StatesManager<Integer> sm = new StatesManager<>();
@@ -179,7 +179,7 @@ public class NumericalStateMachineTest {
 		params.put("x", 9);
 		// node.getRoot();
 
-		State state = SimpleState(0);
+		State state = simpleState(0);
 		
 
 		TransitionResponse<Integer> executeTransition = sm.executeTransition(state, params);
@@ -196,26 +196,26 @@ public class NumericalStateMachineTest {
 	public void testDCustomParams() {
 		
 		
-		Node node = node(SimpleState(0))
+		Node node = node(simpleState(0))
 
 				.withEdge(edge().withCondition(lessOrEqualThan("x", 10))
 								.withAction(
 											action(ActionType.NAMED_ACTION).withName("ACTION_01")
 											.automatic(true)
 											)
-								.toTarget(node(SimpleState(1))
+								.toTarget(node(simpleState(1))
 										.withEdge(edge().withCondition(greaterOrEqualThan("x", 8))
 														.withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_01")
 																	.automatic(true)
 																	)
-														.toTarget(node(SimpleState(3))
+														.toTarget(node(simpleState(3))
 																				.withEdge(edge()
 																						.withAction(
 																									action(ActionType.NAMED_ACTION)
 																										.withName("ACTION_01_01_01")
 																										)
-																						.withCondition(lNotEquals("x", 9)).toTarget(node(SimpleState(5))))
+																						.withCondition(lNotEquals("x", 9)).toTarget(node(simpleState(5))))
 																				.withEdge(edge().withAction(
 																									action(ActionType.LAMBDA_ACTION)
 																										.withName("ACTION_01_01_02")
@@ -231,21 +231,21 @@ public class NumericalStateMachineTest {
 																												return i * i;
 																											}
 																										}))
-																						.withCondition(lEquals("x", 9)).toTarget(node(SimpleState(6))))
+																						.withCondition(lEquals("x", 9)).toTarget(node(simpleState(6))))
 																				
 																	)
 													)
 										.withEdge(edge().withAction(
 																	action(ActionType.NAMED_ACTION).withName("ACTION_01_02"))
 														.withCondition(greaterOrEqualThan("x", 5))
-														.toTarget(node(SimpleState(4))))
+														.toTarget(node(simpleState(4))))
 
 						))
 				.withEdge(edge().withCondition(lEquals("x", 0))
 								.withAction(
 											 action(ActionType.NAMED_ACTION).withName("ACTION_00")
 											)
-								.toTarget(node(SimpleState(2))));
+								.toTarget(node(simpleState(2))));
 		
 		
 		StatesManager<Integer> sm = new StatesManager<>();
@@ -257,7 +257,7 @@ public class NumericalStateMachineTest {
 		params.put("x", 9);
 		// node.getRoot();
 
-		State state = SimpleState(0);
+		State state = simpleState(0);
 		
 
 		TransitionResponse<Integer> executeTransition = sm.executeTransition(state, params);

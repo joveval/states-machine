@@ -10,7 +10,7 @@ public class StaticMethods {
 		return new Edge();
 	}
 
-	public static State SimpleState(int stateId) {
+	public static State simpleState(int stateId) {
 
 		return new State.Builder().stateId(stateId).build();
 	}
