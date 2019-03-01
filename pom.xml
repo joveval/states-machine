@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.joveval.util</groupId>
 	<artifactId>StatesMachine</artifactId>
-	<version>1.0.0-alpha</version>
+	<version>1.0.1-alpha</version>
 	<name>States Machine</name>
 	<url>https://github.com/joveval/rules-manager</url>
 	<description>State machine builder and manager.</description>
@@ -36,7 +36,7 @@
 		<connection>scm:git:git://github.com/joveval/states-machine.git</connection>
 		<developerConnection>scm:git:git@github.com:joveval/states-machine.git</developerConnection>
 		<url>https://github.com/joveval/states-machine</url>
-		<tag>StatesMachine-1.0.0-alpha</tag>
+		<tag>StatesMachine-1.0.1-alpha</tag>
 	</scm>
 
 
