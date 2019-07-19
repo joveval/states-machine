@@ -2,66 +2,46 @@ package pe.joseval.util.states.machine.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(builderClassName = "Builder", builderMethodName = "builder")
 public class Node {
-
-	private State root;
-	// @Singular(value = "child")
+	private UUID stateId;
+	@Default
+	private Boolean root = Boolean.FALSE;
+	private String tag;
 	@Default
 	private List<Edge> children = new ArrayList<>();
+	
+	public Optional<Boolean> safeIsRoot(){
+		return Optional.ofNullable(root);
+	}
+	public Optional<UUID> getSafeStateId() {
+		return Optional.ofNullable(stateId);
+	}
+
+	public Optional<String> getSafeTag() {
+		return Optional.ofNullable(tag);
+	}
+
+	public Optional<List<Edge>> getSafeChildren() {
+		return Optional.ofNullable(children);
+	}
 
 	public Node withEdge(Edge edge) {
-		//log.info(edge.getClass().toGenericString());
-		//log.info(edge.toString());
-		try {
-			children.add(edge);
-		} catch (Exception e) {
-			log.debug("ERROR:", e);
-		}
+		Optional<List<Edge>> childrenOpt = Optional.of(children);
+		childrenOpt.orElseThrow(RuntimeException::new).add(edge);
 		return this;
 	}
 
-	public<T> void populateStateManager(StatesManager<T> statesManager) {
-
-		if (!statesManager.getStates().containsKey(root.getStateId()))
-			statesManager.addState(root);
-		// log.debug("State = {}",root.getStateId());
-		for (Edge edge : children) {
-
-			List<StateTransition> intersection = statesManager.getTransitionMatrix().stream().filter(st -> {
-
-				// log.debug("Init = {},End = {}",st.getInit(),st.getEnd());
-				return st.getInit().equals(root) && st.getEnd().equals(edge.getTargetNode().getRoot());
-			}).collect(Collectors.toList());
-			if (intersection.size() > 0) {
-				log.warn(
-						"There is an intersection in transition matrix. This is because of certain states join to each other more than once.");
-				continue;
-			}
-
-			StateTransition sT = StateTransition.builder().condition(edge.getCondition()).init(root)
-					.end(edge.getTargetNode().getRoot()).build();
-			// sT.setAction(edge.getAction());
-			sT.setAction(edge.getAction());
-			statesManager.addTransition(sT);
-
-			if (!statesManager.getStates().containsKey(edge.getTargetNode().getRoot().getStateId()))
-				statesManager.addState(edge.getTargetNode().getRoot());
-
-			edge.getTargetNode().populateStateManager(statesManager);
-		}
-	}
 }

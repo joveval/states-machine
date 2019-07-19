@@ -1,18 +1,26 @@
 package pe.joseval.util.states.machine.core;
 
+import java.util.UUID;
+
 public class StaticMethods {
 
-	public static Node node(State rootState) {
-		return Node.builder().root(rootState).build();
+	public static Node root() {
+		return Node.builder().stateId(simpleState()).root(Boolean.TRUE).build();
+	}
+	public static Node node() {
+		return Node.builder().stateId(simpleState()).build();
+	}
+	public static Node node(UUID stateId) {
+		return Node.builder().stateId(stateId).build();
 	}
 
 	public static Edge edge() {
 		return new Edge();
 	}
 
-	public static State simpleState(int stateId) {
+	public static UUID simpleState() {
 
-		return new State.Builder().stateId(stateId).build();
+		return UUID.randomUUID();
 	}
 	
 	
