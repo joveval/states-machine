@@ -35,17 +35,18 @@ public class NumericalStateMachineTest {
 				.withEdge(edge().withCondition(lessOrEqualThan("x", 10))
 						.withAction(action(ActionType.NAMED_ACTION).withName("ACTION_01")
 
-						)
-						.toTarget(node().withTag("T1")
+						).toTarget(node().withTag("T1")
 								.withEdge(edge().withCondition(greaterOrEqualThan("x", 8))
 										.withAction(action(ActionType.NAMED_ACTION).withName("ACTION_01_01"))
 
 										.toTarget(node()))
 								.withEdge(edge().withAction(action(ActionType.NAMED_ACTION).withName("ACTION_01_02"))
-										.withCondition(greaterOrEqualThan("x", 5)).toTarget(node()))
+										.withCondition(greaterOrEqualThan("x", 5)).goTo("T2"))
 
-						)).withEdge(edge().withCondition(greaterOrEqualThan("x", 11))
-								.withAction(action(ActionType.NAMED_ACTION).withName("ACTION_00")));
+						))
+				.withEdge(edge().withCondition(greaterOrEqualThan("x", 11))
+								.withAction(action(ActionType.NAMED_ACTION).withName("ACTION_00"))
+								.toTarget(node().withTag("T2")));
 
 		StatesManager<Integer> sm = new StatesManager<>();
 		sm.initStatesManager(Optional.of(node));

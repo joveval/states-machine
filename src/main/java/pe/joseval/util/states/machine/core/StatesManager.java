@@ -96,7 +96,7 @@ public class StatesManager<T> {
 				sT.setEnd(parent.flatMap(Node::getSafeStateId).orElseThrow(StatesManager.NullParentStateException::new));
 				break;
 			case TO_TAG:
-				String tag = nodeOpt.flatMap(Node::getSafeTag).orElseThrow(StatesManager.NullTagProvidedException::new);
+				String tag = e.getSafeGoTo().orElseThrow(StatesManager.NullTagProvidedException::new);
 				Optional<UUID> taggedStateOpt = Optional.ofNullable(this.taggedStates.get(tag));
 				sT.setEnd(taggedStateOpt.orElseThrow(StatesManager.TaggedStateNotFoundException::new));
 				break;

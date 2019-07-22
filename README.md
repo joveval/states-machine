@@ -1,4 +1,4 @@
-# Rules manager
+# States Machine
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8da2bd3562464002a0da223bc366bcf9)](https://app.codacy.com/app/joveval/states-machine?utm_source=github.com&utm_medium=referral&utm_content=joveval/states-machine&utm_campaign=Badge_Grade_Dashboard)
 
