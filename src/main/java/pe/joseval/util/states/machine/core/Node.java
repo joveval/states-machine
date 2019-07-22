@@ -43,5 +43,9 @@ public class Node {
 		childrenOpt.orElseThrow(RuntimeException::new).add(edge);
 		return this;
 	}
+	public Node withTag(String tag) {
+		this.tag = tag;
+		return this;
+	}
 
 }

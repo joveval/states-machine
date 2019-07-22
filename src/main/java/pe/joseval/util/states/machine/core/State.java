@@ -9,28 +9,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.Builder.Default;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 @Builder(builderClassName="Builder",builderMethodName="builder")
-@ToString(of= {"stateId","name"})
+@ToString(of= {"stateId","shortName"})
 @EqualsAndHashCode
 public class State {
 	private UUID stateId;
-	//private int stateId;
 	@EqualsAndHashCode.Exclude
-	@Default
-	private String tag=null;
-	@EqualsAndHashCode.Exclude
-	private String name;
+	private String shortName;
 	
 	public Optional<UUID> getSafeStateId(){
 		return Optional.ofNullable(stateId);
 	}
-	public Optional<String> getSafeTag(){
-		return Optional.ofNullable(tag);
+	public Optional<String> getSafeShortName(){
+		return Optional.ofNullable(shortName);
 	}
 	
 }

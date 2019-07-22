@@ -16,8 +16,6 @@ import pe.joseval.util.rules.manager.core.Condition;
 public class StateTransition implements AutoCloseable{
 	private UUID init;
 	private UUID end;
-	//private TransitionType transitionType;
-	//private String targetTag;
 	private Condition condition;
 	private Action action;
 	
@@ -36,6 +34,10 @@ public class StateTransition implements AutoCloseable{
 	public void close() throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public String toString() {
+		return "( " + init + " ) ----> ( " + end + ")\n";
 	}
 
 }
